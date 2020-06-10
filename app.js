@@ -1,12 +1,12 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
-var cookieParser = require('cookie-parser');
+//var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const session = require('express-session');
-const FileStore = require('session-file-store')(session);
+//const session = require('express-session');
+//const FileStore = require('session-file-store')(session);
 const passport = require('passport');
-const authenticate = require('./authenticate');
+const config = require('./config');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -16,7 +16,7 @@ const partnerRouter = require('./routes/partnerRouter');
 
 const mongoose = require('mongoose');  
 
-const url = 'mongodb://localhost:27017/nucampsite';
+const url = config.mongoUrl;
 const connect = mongoose.connect(url, {
   useCreatIndex: true,
   useFindAndModify: false,
@@ -40,7 +40,7 @@ app.use(express.urlencoded({ extended: false }));
 //app.use(cookieParser('12345-67890-09876-54321'));
 
 
-
+/*
 app.use(session({
   name: 'sesson-id',
   secret: '12345-67890-09876-54321',
@@ -48,13 +48,13 @@ app.use(session({
   resave: false,
   store: new FileStore()
 }));
-
+*/
 app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-
+/*
 function auth(req, res, next) {
   console.log(req.session);
 
@@ -69,7 +69,7 @@ function auth(req, res, next) {
   }
 }
 app.use(auth);
-
+*/
 app.use(express.static(path.join(__dirname, 'public')));
 
 
